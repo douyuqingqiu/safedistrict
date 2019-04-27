@@ -1,0 +1,52 @@
+############################## server的配置信息 ###################################
+server:
+  port: 8080
+  tomcat:
+    uri-encoding: UTF-8         #配置tomcat的编码格式，用于处理get请求的乱码问题
+  servlet:
+    context-path: /safedistrict-server
+
+
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:mysql://www.emoonbow.com:3306/safedistrict?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: Taiwen2017
+    ## 配置数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+    #配置返回时间戳
+jackson:
+  serialization:
+    write-dates-as-timestamps: true
+
+
+  http:
+    encoding:                # 配置POST中文乱码
+      charset: UTF-8
+      enabled: true
+      force: true
+
+
+#pagehelper分页
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.safedistrict.dao.MonitorMapper" >
+  <resultMap id="BaseResultMap" type="com.example.safedistrict.entity.Monitor" >
+    <id column="monitor_id" property="monitorId" jdbcType="INTEGER" />
+    <result column="area_number" property="areaNumber" jdbcType="VARCHAR" />
+    <result column="monitor_name" property="monitorName" jdbcType="VARCHAR" />
+    <result column="monitor_address" property="monitorAddress" jdbcType="VARCHAR" />
+    <result column="activated" property="activated" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    monitor_id, area_number, monitor_name, monitor_address, activated, deleted, updated_date, 
+    created_date
+  </sql>
+  <select id="selectMonitorByNumber" resultMap="BaseResultMap" parameterType="com.example.safedistrict.entity.Monitor">
+    select
+    <include refid="Base_Column_List" />
+    from t_monitor
+    where area_number = #{areaNumber,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectMonitor" resultMap="BaseResultMap" parameterType="com.example.safedistrict.entity.Monitor">
+    select
+    <include refid="Base_Column_List" />
+    from t_monitor
+  </select>
+
+  <insert id="saveMonitor" parameterType="com.example.safedistrict.entity.Monitor">
+    insert into t_monitor(area_number,  monitor_name, monitor_address)
+    values (#{areaNumber,jdbcType=VARCHAR},#{monitorName,jdbcType=VARCHAR},#{monitorAddress,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.example.safedistrict.entity.Monitor" >
+    update t_monitor
+    <set>
+      <if test="areaNumber != null">
+        area_number = #{areaNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null">
+        monitor_name = #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorAddress != null">
+        monitor_address = #{monitorAddress,jdbcType=VARCHAR}
+      </if>
+      where monitor_id = #{monitorId,jdbcType=INTEGER}
+    </set>
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="com.example.safedistrict.entity.Monitor" >
+    delete from t_monitor
+    where monitor_id = #{monitorId,jdbcType=INTEGER}
+  </delete>
+</mapper>

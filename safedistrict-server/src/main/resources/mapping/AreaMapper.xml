@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.safedistrict.dao.AreaMapper" >
+  <resultMap id="BaseResultMap" type="com.example.safedistrict.entity.Area" >
+    <id column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="area_type" property="areaType" jdbcType="INTEGER" />
+    <result column="area_number" property="areaNumber" jdbcType="VARCHAR" />
+    <result column="parent_number" property="parentNumber" jdbcType="VARCHAR" />
+    <result column="area_name" property="areaName" jdbcType="VARCHAR" />
+    <result column="image_district" property="imageDistrict" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="activated" property="activated" jdbcType="INTEGER" />
+    <result column="deleted" property="deleted" jdbcType="INTEGER" />
+    <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="created_date" property="createdDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    area_id, area_type, area_number, parent_number, area_name, image_district, price, 
+    activated, deleted, updated_date, created_date
+  </sql>
+
+  <select id="selectAllCity"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_area
+    where area_type = #{areaType,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAreaByKey"  resultMap="BaseResultMap" parameterType="com.example.safedistrict.entity.Area">
+    select
+    <include refid="Base_Column_List" />
+    from t_area
+    where area_Number = #{areaNumber,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getAreaBynumber"  resultMap="BaseResultMap" parameterType="com.example.safedistrict.entity.Area">
+    select
+    <include refid="Base_Column_List" />
+    from t_area
+    where parent_number = #{parentNumber,jdbcType=VARCHAR}
+    and area_type = #{areaType,jdbcType=INTEGER}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="com.example.safedistrict.entity.Area" >
+    delete from t_area
+    where area_number = #{areaNumber,jdbcType=VARCHAR}
+  </delete>
+  <insert id="saveArea" parameterType="com.example.safedistrict.entity.Area" >
+    insert into t_area (area_id, area_type, area_number, 
+      parent_number, area_name, image_district, 
+      price, activated, deleted, 
+      updated_date, created_date)
+    values (#{areaId,jdbcType=INTEGER}, #{areaType,jdbcType=INTEGER}, #{areaNumber,jdbcType=VARCHAR}, 
+      #{parentNumber,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, #{imageDistrict,jdbcType=VARCHAR}, 
+      #{price,jdbcType=VARCHAR}, #{activated,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER}, 
+      #{updatedDate,jdbcType=TIMESTAMP}, #{createdDate,jdbcType=TIMESTAMP})
+  </insert>
+
+</mapper>
